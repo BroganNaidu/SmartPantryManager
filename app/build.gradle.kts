@@ -4,6 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.smartpantrymanager"
+
     compileSdk {
         version = release(37)
     }
@@ -25,6 +26,7 @@ android {
             }
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -36,6 +38,9 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
     implementation(libs.material)
+
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)

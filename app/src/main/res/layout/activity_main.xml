@@ -26,16 +26,27 @@
         android:textColor="#666666"
         android:layout_marginBottom="20dp" />
 
-    <TextView
-        android:id="@+id/tvEmptyPantry"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="Your pantry is empty.\nAdd an ingredient to get started."
-        android:textAlignment="center"
-        android:textSize="17sp"
-        android:textColor="#777777" />
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPantry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tvEmptyPantry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Your pantry is empty.&#10;Add an ingredient to get started."
+            android:textAlignment="center"
+            android:textSize="17sp"
+            android:textColor="#777777" />
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/btnAddIngredient"
