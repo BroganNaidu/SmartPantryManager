@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewPantry;
     private TextView tvEmptyPantry;
     private Button btnAddIngredient;
+    private Button btnSuggestedRecipes;
 
     private DatabaseHelper databaseHelper;
     private PantryAdapter pantryAdapter;
@@ -30,13 +31,29 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewPantry = findViewById(R.id.recyclerViewPantry);
         tvEmptyPantry = findViewById(R.id.tvEmptyPantry);
         btnAddIngredient = findViewById(R.id.btnAddIngredient);
+        btnSuggestedRecipes = findViewById(R.id.btnSuggestedRecipes);
 
         databaseHelper = new DatabaseHelper(this);
 
         recyclerViewPantry.setLayoutManager(new LinearLayoutManager(this));
 
+        // Open the add ingredient screen
         btnAddIngredient.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AddEditIngredientActivity.class);
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    AddEditIngredientActivity.class
+            );
+
+            startActivity(intent);
+        });
+
+        // Open the suggested recipes screen
+        btnSuggestedRecipes.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    SuggestedRecipesActivity.class
+            );
+
             startActivity(intent);
         });
     }
@@ -49,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Load the pantry items from the database
     private void loadPantryItems() {
+
         pantryItems = databaseHelper.getAllPantryItems();
 
         pantryAdapter = new PantryAdapter(pantryItems);
