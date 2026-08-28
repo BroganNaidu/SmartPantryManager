@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvEmptyPantry;
     private Button btnAddIngredient;
     private Button btnSuggestedRecipes;
+    private Button btnSettings;
 
     private DatabaseHelper databaseHelper;
     private PantryAdapter pantryAdapter;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         tvEmptyPantry = findViewById(R.id.tvEmptyPantry);
         btnAddIngredient = findViewById(R.id.btnAddIngredient);
         btnSuggestedRecipes = findViewById(R.id.btnSuggestedRecipes);
+        btnSettings = findViewById(R.id.btnSettings);
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -52,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(
                     MainActivity.this,
                     SuggestedRecipesActivity.class
+            );
+
+            startActivity(intent);
+        });
+
+        // Open the settings screen
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    SettingsActivity.class
             );
 
             startActivity(intent);

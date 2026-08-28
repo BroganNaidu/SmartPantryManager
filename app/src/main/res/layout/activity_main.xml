@@ -50,6 +50,15 @@
     </FrameLayout>
 
     <Button
+        android:id="@+id/btnSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:layout_marginBottom="10dp" />
+
+    <Button
         android:id="@+id/btnSuggestedRecipes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
