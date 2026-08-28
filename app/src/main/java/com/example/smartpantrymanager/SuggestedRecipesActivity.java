@@ -1,5 +1,6 @@
 package com.example.smartpantrymanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -8,12 +9,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 
 public class SuggestedRecipesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewRecipes;
     private TextView tvNoRecipes;
+    private BottomNavigationView bottomNavigationView;
 
     private DatabaseHelper databaseHelper;
     private RecipeAdapter recipeAdapter;
@@ -25,12 +29,54 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
 
         recyclerViewRecipes = findViewById(R.id.recyclerViewRecipes);
         tvNoRecipes = findViewById(R.id.tvNoRecipes);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         databaseHelper = new DatabaseHelper(this);
 
         recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(this));
 
+        setupBottomNavigation();
         loadSuggestedRecipes();
+    }
+
+    private void setupBottomNavigation() {
+
+        bottomNavigationView.setSelectedItemId(R.id.nav_recipes);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_recipes) {
+                return true;
+            }
+
+            if (itemId == R.id.nav_pantry) {
+
+                Intent intent = new Intent(
+                        SuggestedRecipesActivity.this,
+                        MainActivity.class
+                );
+
+                startActivity(intent);
+                finish();
+                return true;
+            }
+
+            if (itemId == R.id.nav_settings) {
+
+                Intent intent = new Intent(
+                        SuggestedRecipesActivity.this,
+                        SettingsActivity.class
+                );
+
+                startActivity(intent);
+                finish();
+                return true;
+            }
+
+            return false;
+        });
     }
 
     private void loadSuggestedRecipes() {

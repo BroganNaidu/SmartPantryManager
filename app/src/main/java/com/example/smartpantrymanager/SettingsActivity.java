@@ -1,5 +1,6 @@
 package com.example.smartpantrymanager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -9,11 +10,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private Spinner spinnerWeightUnit;
     private Spinner spinnerLiquidUnit;
     private Button btnSaveSettings;
+    private BottomNavigationView bottomNavigationView;
 
     private SharedPreferences sharedPreferences;
 
@@ -29,6 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
         spinnerWeightUnit = findViewById(R.id.spinnerWeightUnit);
         spinnerLiquidUnit = findViewById(R.id.spinnerLiquidUnit);
         btnSaveSettings = findViewById(R.id.btnSaveSettings);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         sharedPreferences = getSharedPreferences(
                 PREFS_NAME,
@@ -37,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         setupSpinners();
         loadSavedSettings();
+        setupBottomNavigation();
 
         btnSaveSettings.setOnClickListener(v -> saveSettings());
     }
@@ -56,7 +62,6 @@ public class SettingsActivity extends AppCompatActivity {
         );
 
         spinnerWeightUnit.setAdapter(weightAdapter);
-
 
         String[] liquidUnits = {"ml", "l"};
 
@@ -119,5 +124,45 @@ public class SettingsActivity extends AppCompatActivity {
                 "Settings saved",
                 Toast.LENGTH_SHORT
         ).show();
+    }
+
+    private void setupBottomNavigation() {
+
+        bottomNavigationView.setSelectedItemId(R.id.nav_settings);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_settings) {
+                return true;
+            }
+
+            if (itemId == R.id.nav_pantry) {
+
+                Intent intent = new Intent(
+                        SettingsActivity.this,
+                        MainActivity.class
+                );
+
+                startActivity(intent);
+                finish();
+                return true;
+            }
+
+            if (itemId == R.id.nav_recipes) {
+
+                Intent intent = new Intent(
+                        SettingsActivity.this,
+                        SuggestedRecipesActivity.class
+                );
+
+                startActivity(intent);
+                finish();
+                return true;
+            }
+
+            return false;
+        });
     }
 }

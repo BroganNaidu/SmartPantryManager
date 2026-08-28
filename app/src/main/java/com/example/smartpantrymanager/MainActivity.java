@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewPantry;
     private TextView tvEmptyPantry;
     private Button btnAddIngredient;
-    private Button btnSuggestedRecipes;
-    private Button btnSettings;
+    private BottomNavigationView bottomNavigationView;
 
     private DatabaseHelper databaseHelper;
     private PantryAdapter pantryAdapter;
@@ -32,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewPantry = findViewById(R.id.recyclerViewPantry);
         tvEmptyPantry = findViewById(R.id.tvEmptyPantry);
         btnAddIngredient = findViewById(R.id.btnAddIngredient);
-        btnSuggestedRecipes = findViewById(R.id.btnSuggestedRecipes);
-        btnSettings = findViewById(R.id.btnSettings);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -49,30 +49,55 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Open the suggested recipes screen
-        btnSuggestedRecipes.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    MainActivity.this,
-                    SuggestedRecipesActivity.class
-            );
+        setupBottomNavigation();
+    }
 
-            startActivity(intent);
-        });
+    private void setupBottomNavigation() {
 
-        // Open the settings screen
-        btnSettings.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    MainActivity.this,
-                    SettingsActivity.class
-            );
+        bottomNavigationView.setSelectedItemId(R.id.nav_pantry);
 
-            startActivity(intent);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_pantry) {
+                return true;
+            }
+
+            if (itemId == R.id.nav_recipes) {
+
+                Intent intent = new Intent(
+                        MainActivity.this,
+                        SuggestedRecipesActivity.class
+                );
+
+                startActivity(intent);
+                return true;
+            }
+
+            if (itemId == R.id.nav_settings) {
+
+                Intent intent = new Intent(
+                        MainActivity.this,
+                        SettingsActivity.class
+                );
+
+                startActivity(intent);
+                return true;
+            }
+
+            return false;
         });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (bottomNavigationView != null) {
+            bottomNavigationView.setSelectedItemId(R.id.nav_pantry);
+        }
+
         loadPantryItems();
     }
 
@@ -81,10 +106,19 @@ public class MainActivity extends AppCompatActivity {
 
         pantryItems = databaseHelper.getAllPantryItems();
 
-        pantryAdapter = new PantryAdapter(pantryItems);
+        pantryAdapter = new PantryAdapter(
+                pantryItems,
+                this::updateEmptyState
+        );
+
         recyclerViewPantry.setAdapter(pantryAdapter);
 
-        if (pantryItems.isEmpty()) {
+        updateEmptyState();
+    }
+
+    private void updateEmptyState() {
+
+        if (pantryItems == null || pantryItems.isEmpty()) {
             recyclerViewPantry.setVisibility(View.GONE);
             tvEmptyPantry.setVisibility(View.VISIBLE);
         } else {

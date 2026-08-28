@@ -18,9 +18,16 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
 
     private ArrayList<PantryItem> pantryItems;
     private DatabaseHelper databaseHelper;
+    private OnPantryChangedListener listener;
 
-    public PantryAdapter(ArrayList<PantryItem> pantryItems) {
+    public interface OnPantryChangedListener {
+        void onPantryChanged();
+    }
+
+    public PantryAdapter(ArrayList<PantryItem> pantryItems,
+                         OnPantryChangedListener listener) {
         this.pantryItems = pantryItems;
+        this.listener = listener;
     }
 
     @NonNull
@@ -86,6 +93,10 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
                             if (currentPosition != RecyclerView.NO_POSITION) {
                                 pantryItems.remove(currentPosition);
                                 notifyItemRemoved(currentPosition);
+
+                                if (listener != null) {
+                                    listener.onPantryChanged();
+                                }
                             }
 
                             Toast.makeText(
