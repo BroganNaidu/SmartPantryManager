@@ -1,5 +1,6 @@
 package com.example.smartpantrymanager;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
+
         Recipe recipe = recipes.get(position);
 
         holder.tvRecipeName.setText(recipe.getName());
@@ -51,7 +53,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
 
         holder.btnViewRecipe.setOnClickListener(v -> {
-            // Recipe details screen will be added later
+
+            Intent intent = new Intent(
+                    v.getContext(),
+                    RecipeDetailActivity.class
+            );
+
+            intent.putExtra("recipe_id", recipe.getId());
+            intent.putExtra("recipe_name", recipe.getName());
+            intent.putExtra("recipe_method", recipe.getMethod());
+
+            v.getContext().startActivity(intent);
         });
     }
 
@@ -70,9 +82,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             super(itemView);
 
             tvRecipeName = itemView.findViewById(R.id.tvRecipeName);
+
             tvRecipeIngredientCount =
                     itemView.findViewById(R.id.tvRecipeIngredientCount);
-            btnViewRecipe = itemView.findViewById(R.id.btnViewRecipe);
+
+            btnViewRecipe =
+                    itemView.findViewById(R.id.btnViewRecipe);
         }
     }
 }
