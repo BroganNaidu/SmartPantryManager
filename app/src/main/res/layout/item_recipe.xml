@@ -6,8 +6,9 @@
     android:orientation="vertical"
     android:padding="15dp"
     android:layout_marginBottom="10dp"
-    android:background="#FFFFFF">
+    android:background="@drawable/card_background">
 
+    <!-- Displays the recipe name -->
     <TextView
         android:id="@+id/tvRecipeName"
         android:layout_width="wrap_content"
@@ -15,23 +16,25 @@
         android:text="Recipe Name"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="#2F4F3E" />
+        android:textColor="@color/dark_green" />
 
+    <!-- Shows how many ingredients are needed -->
     <TextView
         android:id="@+id/tvRecipeIngredientCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="3 ingredients"
         android:textSize="14sp"
-        android:textColor="#666666"
+        android:textColor="@color/text_secondary"
         android:layout_marginTop="5dp" />
 
+    <!-- Opens the full recipe details -->
     <Button
         android:id="@+id/btnViewRecipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="View Recipe"
         android:textAllCaps="false"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="12dp" />
 
 </LinearLayout>

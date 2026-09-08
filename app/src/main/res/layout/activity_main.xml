@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F7F5EF">
+    android:background="@color/cream_background">
 
+    <!-- Main pantry content -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -21,7 +22,7 @@
             android:text="My Pantry"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="#2F4F3E"
+            android:textColor="@color/dark_green"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp" />
 
@@ -31,9 +32,10 @@
             android:layout_height="wrap_content"
             android:text="Ingredients you currently have at home"
             android:textSize="15sp"
-            android:textColor="#666666"
+            android:textColor="@color/text_secondary"
             android:layout_marginBottom="20dp" />
 
+        <!-- Holds either the pantry list or the empty pantry message -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -52,10 +54,11 @@
                 android:text="Your pantry is empty.&#10;Add an ingredient to get started."
                 android:textAlignment="center"
                 android:textSize="17sp"
-                android:textColor="#777777" />
+                android:textColor="@color/text_light" />
 
         </FrameLayout>
 
+        <!-- Opens the add ingredient screen -->
         <Button
             android:id="@+id/btnAddIngredient"
             android:layout_width="match_parent"
@@ -68,12 +71,13 @@
 
     </LinearLayout>
 
+    <!-- Main navigation between Pantry, Recipes and Settings -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled" />
-
+        app:labelVisibilityMode="labeled"
+        app:itemActiveIndicatorStyle="@style/SmartPantryBottomNavIndicator" />
 </LinearLayout>

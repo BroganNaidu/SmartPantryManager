@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F5EF">
+    android:background="@color/cream_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,6 +11,7 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- Screen title changes between Add and Edit mode -->
         <TextView
             android:id="@+id/tvFormTitle"
             android:layout_width="wrap_content"
@@ -17,17 +19,18 @@
             android:text="Add Ingredient"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="#2F4F3E"
+            android:textColor="@color/dark_green"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="25dp" />
 
+        <!-- Ingredient name field -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ingredient Name"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="#333333"
+            android:textColor="@color/text_primary"
             android:layout_marginBottom="5dp" />
 
         <EditText
@@ -37,15 +40,18 @@
             android:hint="e.g. Tomato"
             android:inputType="textCapWords"
             android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_light"
             android:layout_marginBottom="18dp" />
 
+        <!-- Quantity field -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Quantity"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="#333333"
+            android:textColor="@color/text_primary"
             android:layout_marginBottom="5dp" />
 
         <EditText
@@ -55,44 +61,53 @@
             android:hint="e.g. 5"
             android:inputType="numberDecimal"
             android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_light"
             android:layout_marginBottom="18dp" />
 
+        <!-- Unit used for the ingredient quantity -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Unit"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="#333333"
+            android:textColor="@color/text_primary"
             android:layout_marginBottom="5dp" />
 
         <EditText
             android:id="@+id/etUnit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="e.g. pieces, grams, ml"
+            android:hint="e.g. pieces, g, kg, ml"
             android:inputType="text"
             android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_light"
             android:layout_marginBottom="18dp" />
 
+        <!-- Expiry date is optional but validated if entered -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Expiry Date (Optional)"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="#333333"
+            android:textColor="@color/text_primary"
             android:layout_marginBottom="5dp" />
 
         <EditText
             android:id="@+id/etExpiryDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="e.g. 2026-09-15"
+            android:hint="YYYY-MM-DD"
             android:inputType="date"
             android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_light"
             android:layout_marginBottom="25dp" />
 
+        <!-- Saves a new ingredient or updates an existing one -->
         <Button
             android:id="@+id/btnSaveIngredient"
             android:layout_width="match_parent"
