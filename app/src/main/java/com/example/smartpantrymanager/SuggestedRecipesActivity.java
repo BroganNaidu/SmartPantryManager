@@ -95,21 +95,7 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
 
             for (RecipeIngredient requiredIngredient : requiredIngredients) {
 
-                boolean ingredientFound = false;
-
-                for (PantryItem pantryItem : pantryItems) {
-
-                    if (normalizeName(pantryItem.getName())
-                            .equals(normalizeName(requiredIngredient.getIngredientName()))) {
-
-                        if (hasEnoughQuantity(pantryItem, requiredIngredient)) {
-                            ingredientFound = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!ingredientFound) {
+                if (!hasEnoughQuantity(pantryItems, requiredIngredient)) {
                     canMakeRecipe = false;
                     break;
                 }
@@ -132,6 +118,49 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
         }
     }
 
+    private boolean hasEnoughQuantity(
+            ArrayList<PantryItem> pantryItems,
+            RecipeIngredient requiredIngredient) {
+
+        double totalQuantity = 0;
+
+        String requiredName =
+                normalizeName(requiredIngredient.getIngredientName());
+
+        String requiredUnit =
+                normalizeUnit(requiredIngredient.getUnit());
+
+        for (PantryItem pantryItem : pantryItems) {
+
+            String pantryName = normalizeName(pantryItem.getName());
+
+            if (pantryName.equals(requiredName)) {
+
+                String pantryUnit =
+                        normalizeUnit(pantryItem.getUnit());
+
+                if (pantryUnit.equals(requiredUnit)) {
+
+                    totalQuantity += pantryItem.getQuantity();
+
+                } else {
+
+                    double convertedQuantity = convertQuantity(
+                            pantryItem.getQuantity(),
+                            pantryUnit,
+                            requiredUnit
+                    );
+
+                    if (convertedQuantity != -1) {
+                        totalQuantity += convertedQuantity;
+                    }
+                }
+            }
+        }
+
+        return totalQuantity >= requiredIngredient.getQuantity();
+    }
+
     private String normalizeName(String name) {
 
         String normalized = name.toLowerCase().trim();
@@ -145,29 +174,6 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
         }
 
         return normalized;
-    }
-
-    private boolean hasEnoughQuantity(PantryItem pantryItem,
-                                      RecipeIngredient requiredIngredient) {
-
-        double pantryQuantity = pantryItem.getQuantity();
-        double requiredQuantity = requiredIngredient.getQuantity();
-
-        String pantryUnit = normalizeUnit(pantryItem.getUnit());
-        String requiredUnit = normalizeUnit(requiredIngredient.getUnit());
-
-        if (pantryUnit.equals(requiredUnit)) {
-            return pantryQuantity >= requiredQuantity;
-        }
-
-        double convertedPantryQuantity =
-                convertQuantity(pantryQuantity, pantryUnit, requiredUnit);
-
-        if (convertedPantryQuantity == -1) {
-            return false;
-        }
-
-        return convertedPantryQuantity >= requiredQuantity;
     }
 
     private String normalizeUnit(String unit) {
@@ -208,9 +214,10 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
         return normalized;
     }
 
-    private double convertQuantity(double quantity,
-                                   String fromUnit,
-                                   String toUnit) {
+    private double convertQuantity(
+            double quantity,
+            String fromUnit,
+            String toUnit) {
 
         if (fromUnit.equals("kg") && toUnit.equals("g")) {
             return quantity * 1000;

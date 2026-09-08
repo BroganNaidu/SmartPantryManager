@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class AddEditIngredientActivity extends AppCompatActivity {
 
     private EditText etIngredientName;
@@ -59,6 +62,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
     }
 
     private void saveIngredient() {
+
         String name = etIngredientName.getText().toString().trim();
         String quantityText = etQuantity.getText().toString().trim();
         String unit = etUnit.getText().toString().trim();
@@ -98,7 +102,15 @@ public class AddEditIngredientActivity extends AppCompatActivity {
             return;
         }
 
+        // Expiry date is optional, but must be valid if entered
+        if (!expiryDate.isEmpty() && !isValidDate(expiryDate)) {
+            etExpiryDate.setError("Use a valid date in YYYY-MM-DD format");
+            etExpiryDate.requestFocus();
+            return;
+        }
+
         if (isEditMode) {
+
             PantryItem item = new PantryItem(
                     ingredientId,
                     name,
@@ -110,13 +122,23 @@ public class AddEditIngredientActivity extends AppCompatActivity {
             int result = databaseHelper.updatePantryItem(item);
 
             if (result > 0) {
-                Toast.makeText(this, "Ingredient updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        this,
+                        "Ingredient updated",
+                        Toast.LENGTH_SHORT
+                ).show();
+
                 finish();
             } else {
-                Toast.makeText(this, "Failed to update ingredient", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        this,
+                        "Failed to update ingredient",
+                        Toast.LENGTH_SHORT
+                ).show();
             }
 
         } else {
+
             PantryItem item = new PantryItem(
                     0,
                     name,
@@ -128,11 +150,35 @@ public class AddEditIngredientActivity extends AppCompatActivity {
             long result = databaseHelper.addPantryItem(item);
 
             if (result != -1) {
-                Toast.makeText(this, "Ingredient saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        this,
+                        "Ingredient saved",
+                        Toast.LENGTH_SHORT
+                ).show();
+
                 finish();
             } else {
-                Toast.makeText(this, "Failed to save ingredient", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        this,
+                        "Failed to save ingredient",
+                        Toast.LENGTH_SHORT
+                ).show();
             }
+        }
+    }
+
+    private boolean isValidDate(String date) {
+
+        SimpleDateFormat dateFormat =
+                new SimpleDateFormat("yyyy-MM-dd");
+
+        dateFormat.setLenient(false);
+
+        try {
+            dateFormat.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
         }
     }
 }
